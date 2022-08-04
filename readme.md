@@ -68,4 +68,7 @@
   * 되도록 중괄호를 사용하는 것을 습관화 하자
     * $namehello 이런식으로 하면 namehello 를 인식해버림 -> ${name}hello 로 써야 name 을 변수 명으로 인식
 
-진행상황 Indexing: 69쪽 
+* 프로퍼티
+  * 
+
+진행상황 Indexing: 71쪽 
