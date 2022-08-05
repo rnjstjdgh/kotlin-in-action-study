@@ -1,12 +1,16 @@
 package kotlin_code.part2
 
+import com.sun.org.apache.xpath.internal.operations.Bool
+
 fun main(args: Array<String>){
 //    println("Hello, world!")
 //    println(max1(3,5))
 //    println(max2(3,5))
 //    println(max3(3,5))
-    variableTest()
-    stringTemplate(args)
+//    variableTest()
+//    stringTemplate(args)
+//    callPersonTest()
+    callRectangleTest()
 }
 
 
@@ -60,6 +64,42 @@ fun stringTemplate(args: Array<String>){
 
 
 //=====================<클래스와 프로퍼티 Start>=====================//
+class Person(
+        val name: String,
+        var isMarried: Boolean
+){
+    fun changeMarried(){
+        isMarried = !isMarried
+    }
+
+//    fun changeName(name: String){
+//        this.name = name
+//    }
+}
+
+fun callPersonTest(){
+    val person = Person("soungho", false)
+    println(person.name)
+//    person.name = "kim"
+    println(person.isMarried)
+    person.isMarried = true
+    println(person.isMarried)
+}
+
+class Rectangle(val height: Int, val width: Int){
+    val isSquare: Boolean get() = height == width
+}
+
+fun callRectangleTest(){
+    val rectangle1 = Rectangle(4,3)
+    println(rectangle1.isSquare)
+
+    val rectangle2 = Rectangle(4,4)
+    println(rectangle2.isSquare)
+}
+
+
+
 //=====================<클래스와 프로퍼티 End>=====================//
 
 
