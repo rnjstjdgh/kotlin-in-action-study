@@ -143,5 +143,124 @@
   * 자바와 거의 동일
 * for 루프
   * for-each 루프만 존재
+----
+## 3장. 함수의 정의와 호출
 
-진행상황 Indexing: 89쪽 
+### 3-1. 코틀린에서 컬렉션 만들기
+* 컬렉션을 만드는 유용한 메소드를 제공
+* 코틀린의 컬렉션은 내부적으로 자바의 컬렉션을 그대로 사용하면서 이를 확장
+  * 기존 자바 코드와의 호완성을 위함
+  * 확장을 통해 기존 자바 클래스보다 더 많은 기능을 제공
+
+### 3-2. 함수를 호출하기 쉽게 만들기
+#### 기본 셈플 함수 형태
+```java
+fun <T> joinToString(
+        collection: Collection<T>,
+        separator: String,
+        prefix: String,
+        postfix: String
+        ) : String {
+    val sb = StringBuilder(prefix)
+    for ((idx, ele) in collection.withIndex()) {
+    sb.append(ele)
+    if(collection.size -1 > idx) sb.append(separator)
+    }
+    sb.append(postfix)
+    return sb.toString()
+}
+```
+* 호출 코드
+```java
+fun main(args: Array<String>) {
+    val mySet = hashSetOf(1,2,3)
+    println(joinToString(mySet, "~","[","]"))
+}
+```
+* 불편사항
+  * 메소드 호출부를 보면 어떤 인자가 어떤 역할을 하는지 명시적으로 알기 어려움
+
+#### 3-2-1 이름 붙인 인자 <- 함수를 사용하는 쪽의 편의
+* 메소드 호출부에 이름을 명시적으로 지정할 수 있음
+```java
+fun main(args: Array<String>) {
+    val mySet = hashSetOf(1,2,3)
+    println(joinToString(mySet, separator = "~",prefix = "[",postfix = "]"))
+}
+```
+* 이름을 지정하면 메소드 호출 시 파라미터 순서 안지켜도 상관없음
+#### 3-2-2 디폴트 파라미터 <- 함수를 선언하는 쪽의 편의
+```java
+fun <T> joinToString(
+        collection: Collection<T>,
+        separator: String = ",",
+        prefix: String = "[",
+        postfix: String = "]"
+        ) : String {
+    val sb = StringBuilder(prefix)
+    for ((idx, ele) in collection.withIndex()) {
+    sb.append(ele)
+    if(collection.size -1 > idx) sb.append(separator)
+    }
+    sb.append(postfix)
+    return sb.toString()
+}
+```
+* 호출하는 쪽에서 여러 형태로 호출 가능
+  * 메소드오버로딩의 부분을 줄여줌
+  * (메소드 오버로딩도 일종의 중복이라고 볼 수 있음)
+
+#### 3-2-3. 정적인 유틸리티 클래스 없애기: 최상위 함수와 프로퍼티
+* 코틀린의 메소드와 프로퍼티는 반드시 클래스 내부에 선언할 필요가 없음
+* 클래스 밖에 선언된 메소드와 프로퍼티를 최상위 메소드, 프로퍼티라함
+* 최상위 메소드, 프로퍼티는 자바의 static 과 유사한 성질을 가짐(내부적으로 동일)
+
+### 3-3. 메소드를 다른 클래스에 추가: 확장 함수와 프로퍼티
+* 개념
+  * 어떤 클래스의 멤버 메소드인것처럼 호출
+  * 하지만, 실제로 멤버 메소드는 아니고 외부에 정의된 정적 메소드
+  * 프록시처럼 클라이언트는 멤버 메소드를 호출한다고 생각하지만 내부적으로는 그 멤버 메소드를 확장한 메소드를 호출하게 됨
+  * 이러한 형태로 기존 멤버 메소드에 부가기능 추가 & 접근제어를 가능하게 함
+* 문법
+![img_23.png](img_23.png)
+  * this 키워드 생략 가능
+* 자바에서의 노출
+  * 코틀린의 확장함수는 자바로 치면 수신 객체 타입의 인스턴스를 가장 처음 인자로 받는 정적 메소드로 표현됨
+  
+* 예시: joinToString 메소드를 Collection<E> 의 확장함수 형태로 구현
+```java
+fun <T> Collection<T>.joinToString(
+        separator: String,
+        prefix: String,
+        postfix: String
+) : String{
+    val sb = StringBuilder(prefix)
+    for ((idx, ele) in this.withIndex()) {
+        sb.append(ele)
+        if(this.size -1 > idx) sb.append(separator)
+    }
+    sb.append(postfix)
+    return sb.toString()
+}
+```
+* 호출하는 부분
+```java
+fun main(args: Array<String>) {
+    val mySet = hashSetOf(1,2,3)
+    println(mySet.joinToString(separator = "~",prefix = "[",postfix = "]"))
+}
+```
+* 확장함수는 내부적으로 자바의 static 메소드로 동작
+  * 오버라이딩이 불가능
+  * 동적바인딩이 아니라 정적바인딩됨
+* 멤버 메소드와의 우선순위
+  * 동일한 형태의 클라이언트 호출 코드가 있으면 멤버메소드가 확장함수보다 우선순위 높음
+
+* 확장 프로퍼티
+  * 확장 함수와 마찬가지로 
+    * 클래스 외부에서 정의
+    * 수신객체클래스가 추가된 형태
+  * 클래스 외부에 정의되기 때문에 상태를 저장할 방법이 없음
+    * 즉, 뒷받침하는 필드가 없음
+  
+진행상황 Indexing: 123쪽 
