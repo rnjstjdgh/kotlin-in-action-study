@@ -23,4 +23,14 @@ fun <T> Collection<T>.joinToString(
 fun main(args: Array<String>) {
     val mySet = hashSetOf(1,2,3)
     println(mySet.joinToString(separator = "~",prefix = "[",postfix = "]"))
+
+    val myStrings = listOf("first", "second", "third")
+//    val myStrings2 = listOf(*myStrings)
+
+    println(myStrings.last())
+    println(myStrings.maxOrNull())
+
+
+    val myMap = mapOf(1 to "one", 2 to "two")
+
 }
