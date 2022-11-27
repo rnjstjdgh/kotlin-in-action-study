@@ -1,10 +1,20 @@
 package kotlin_code.part2
 
-interface Expr
+import kotlin_code.part2.Expr.Num
+import kotlin_code.part2.Expr.Sum
 
-class Num(val value: Int) : Expr
+//interface Expr
+//
+//class Num(val value: Int) : Expr
+//
+//class Sum(val left: Expr, val right: Expr) : Expr
 
-class Sum(val left: Expr, val right: Expr) : Expr
+sealed class Expr {
+    class Num(val value: Int) : Expr()
+
+    class Sum(val left: Expr, val right: Expr) : Expr()
+
+}
 
 // java style
 fun eval1(e : Expr): Int {
@@ -38,7 +48,6 @@ fun eval3(e: Expr) =
         when (e){
             is Num -> e.value
             is Sum -> eval1(e.left) + eval1(e.right)
-            else -> throw java.lang.IllegalArgumentException("Unknown expression")
         }
 
 fun evalWithLog(e: Expr): Int =
@@ -53,6 +62,5 @@ fun evalWithLog(e: Expr): Int =
                 println("sum $left + $right")
                 left + right
             }
-            else -> throw java.lang.IllegalArgumentException("Unknown expression")
         }
 
