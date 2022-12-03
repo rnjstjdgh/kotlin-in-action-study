@@ -397,9 +397,54 @@ interface User {
 
 ##### 4.2.4 게터와 세터에서 뒷받침하는 필드에 접근 -> field 키워드!
 * ![img_35.png](img_35.png)
+* 위 예시처럼 게터와 세터에서 뒷받침하는 필드에 접근하기위해 field 키워드를 사용
+  * 게터에선 field 값을 읽을수만있고
+  * 세터에선 field 값을 읽거나 변경할 수 있음
 
+#### 4.2.5 접근자의 가시성 변경
+* 클래스 내부에서는 변경 가능(var) 속성을 가지지만 밖에서는 읽기만 가능하도록 만드는 방법
+```kotlin
+class LengthCounter { 
+  var counter: Int = 0
+    private set
+  
+  fun addWord(word: String) {
+      counter += word.length
+  }
+}
+```
 
+### 4.3 컴파일러가 생성한 메소드: 데이터 클래스와 클래스 위임
+
+#### 4.3.1 모든 클래스가 정의해야하는 메소드: toString, equals, hashCode
+* sample class
+```kotlin
+class Client(val name: String, val postalCode: Int)
+```
+1. toString
+  * 기본 제공되는 객체의 문자열 표현은 Client@b684286 형태
+  * 이 기본 구현을 변경하려면 toString method 를 ovveride 해야 한다
+  ```kotlin
+  class Client(val name: String, val postalCode: Int) {
+      override fun toString() = "Client(name=$name, postalCode=$postalCode)"
+  }
+  ```
+2. equals
+  * 객체의 동일성은 == 를 통해 확인한다 <- 참조가 같은지 확인
+  * 객체의 동등성은 만드는 객체에따라 정의하기 나름인데, 이 정의에 따라 equals 메소드를 override 한다
+  * 일반적으로 객체가 가진 모든 프로퍼티가 일치하면 동등하다는 규칙을 사용한다
+3. hashCode
+  * 자바에서는 equals 를 override 하면 반드시 hashCode 도 override 해야한다
+  * JVM 언어에서는 아래와 같은 규칙이 있다
+    * equals() 가 true 를 반환하는 두 객체는 반드시 같은 hashCode 를 가져야 한다
+  * java 의 모든 hash container 는 위 규칙을 기반으로 동작한다
+    * 즉, hash container 에서 객체를 비교할 때 효율성을 위해 equals 를 먼저 보지 않고 우선 hashCode 를 비교해보고 
+      * hashCode 가 다르면 다른 객체라 간주
+      * hashCode 가 같으면 그때 equals 를 호출해서 진짜 같은지 다시 확인
+
+#### 4.3.2 데이터 클래스: 모든 클래스가 정의해야하는 메소드를 자동 생성
+* 어떤 클래스가 데이터를 저장하는 역할만 수행한다면, toString, equals, hashCode 는 반드시 override 해야함
+* data 라는 변경자를 클래스 앞에 붙이면, 위 3개의 메소드를 포함한 여러 유용한 메소드를 자동 생성해준다
 
 .....
-진행상황 Indexing: 165쪽 
-읽은건 177까지 읽긴함
+진행상황 Indexing: 177쪽 
