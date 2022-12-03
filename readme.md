@@ -458,5 +458,11 @@ class Client(val name: String, val postalCode: Int)
 ![img_36.png](img_36.png)
 ![img_37.png](img_37.png)
 
+### 4.4 Object 키워드: 클래스 선언과 인스턴스 생성
+* object 키워드는 다양한 상황에서 사용됨
+* but, 클래스를 정의하면서 동시에 객체를 생성한다는 공통점이 있음
+
+
+
 .....
-진행상황 Indexing: 177쪽 
+진행상황 Indexing: 181쪽 
