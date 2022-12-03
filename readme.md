@@ -154,7 +154,7 @@
 
 ### 3-2. 함수를 호출하기 쉽게 만들기
 #### 기본 셈플 함수 형태
-```java
+```kotlin
 fun <T> joinToString(
         collection: Collection<T>,
         separator: String,
@@ -171,7 +171,7 @@ fun <T> joinToString(
 }
 ```
 * 호출 코드
-```java
+```kotlin
 fun main(args: Array<String>) {
     val mySet = hashSetOf(1,2,3)
     println(joinToString(mySet, "~","[","]"))
@@ -182,7 +182,7 @@ fun main(args: Array<String>) {
 
 #### 3-2-1 이름 붙인 인자 <- 함수를 사용하는 쪽의 편의
 * 메소드 호출부에 이름을 명시적으로 지정할 수 있음
-```java
+```kotlin
 fun main(args: Array<String>) {
     val mySet = hashSetOf(1,2,3)
     println(joinToString(mySet, separator = "~",prefix = "[",postfix = "]"))
@@ -190,7 +190,7 @@ fun main(args: Array<String>) {
 ```
 * 이름을 지정하면 메소드 호출 시 파라미터 순서 안지켜도 상관없음
 #### 3-2-2 디폴트 파라미터 <- 함수를 선언하는 쪽의 편의
-```java
+```kotlin
 fun <T> joinToString(
         collection: Collection<T>,
         separator: String = ",",
@@ -228,7 +228,7 @@ fun <T> joinToString(
   * 코틀린의 확장함수는 자바로 치면 수신 객체 타입의 인스턴스를 가장 처음 인자로 받는 정적 메소드로 표현됨
   
 * 예시: joinToString 메소드를 Collection<E> 의 확장함수 형태로 구현
-```java
+```kotlin
 fun <T> Collection<T>.joinToString(
         separator: String,
         prefix: String,
@@ -244,7 +244,7 @@ fun <T> Collection<T>.joinToString(
 }
 ```
 * 호출하는 부분
-```java
+```kotlin
 fun main(args: Array<String>) {
     val mySet = hashSetOf(1,2,3)
     println(mySet.joinToString(separator = "~",prefix = "[",postfix = "]"))
@@ -349,6 +349,54 @@ fun main(args: Array<String>) {
 * 따라서, 기반 클래스를 다양한 방법으로 생성하고싶을땐, 아래와같이 부 생성자를 작성한다
   * ![img_34.png](img_34.png)
 * 이것 말고도 불가피하게 파라미터 목록이 다른 경우에는 부 생성자를 여럿 둬야함
+
+#### 4.2.3 인터페이스에 선언된 프로퍼티 구현
+* 인터페이스에 프로퍼티는 선언 가능 
+  * 상태를 저장할 수 없기 때문에, 뒷받침하는 필드를 가질수는 없음
+  * 뒷받침하는 필드는 구현체에서 만들어야함
+* 인터페이스 예시
+```kotlin
+interface User {
+    val nickname: String
+}
+```
+* 주 생성자에서 오버라이드한 프로퍼티
+```kotlin
+class PrivateUser(override val nickname: String) : User
+```
+  * 내부적으로 getter 가 생성되고 이 getter 의 뒷받침하는 필드가 만들어짐
+  * 객체 생성 시 뒷받침하는 필드가 초기화 되고 이후에는 접근만 가능
+* 커스텀 게터
+```kotlin
+class SubscribingUser(val email: String): User {
+    override val nickname: String 
+        get() = email.substringBefore('@')
+}
+```
+  * 객체 생성 시 email 이 초기화됨
+  * nickname 의 뒷받침하는 필드는 없고 커스텀게터를 통해 값을 얻음
+  * 커스텀 게터에서는 매번 email.substringBefore('@') 코드를 실행해서 값을 리턴
+* 프로퍼티 초기화 식
+```kotlin
+class FaceBookUser(val accountId: Int): User {
+    override val nickname = getFaceBookId(accountId)
+}
+```
+  * 객체 생성 시 한번만 프로퍼티 초기화 식이 실행되어 nickname 에 값이 세팅됨
+
+* 인터페이스에 게테와 세터가 있는 프로퍼티 선언 가능!
+  * 상태(필드) 만 없으면 다 된다!
+```kotlin
+interface User {
+    val email: String
+    val nickname: String
+      get() = email.substringBefore('@')
+}
+```
+  * User 의 구현은 반드시 email 은 override 해야하지만 nickname 은 옵셔널
+
+##### 4.2.4 게터와 세터에서 뒷받침하는 필드에 접근 -> field 키워드!
+* ![img_35.png](img_35.png)
 
 
 
