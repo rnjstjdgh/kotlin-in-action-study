@@ -466,3 +466,8 @@ class Client(val name: String, val postalCode: Int)
 
 .....
 진행상황 Indexing: 181쪽 
+
+
+
+# 코틀린 참고자료
+* https://www.youtube.com/watch?v=RBQOlv0aRl4
