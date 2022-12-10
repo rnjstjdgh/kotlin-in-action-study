@@ -465,7 +465,7 @@ class Client(val name: String, val postalCode: Int)
 
 
 .....
-진행상황 Indexing: 181쪽 
+진행상황 Indexing: 191쪽 (181쪽까지 메모는 완료)
 
 
 
