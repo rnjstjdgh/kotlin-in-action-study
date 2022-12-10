@@ -474,4 +474,6 @@ class Client(val name: String, val postalCode: Int)
 
 # 코틀린 팁
 * ![image](https://user-images.githubusercontent.com/41561652/206827664-848ebafc-ec0f-45ff-bad9-086061a5be88.png)
-
+  * 상위클래스를 설계할 때, open 프로퍼티는 생성자나 초기화블록에 사용하면 안된다
+  * 왜냐하면, 하위클래스를 인스턴스화 할때 먼저 상위 클래스의 생성자와 초기화 블록이 호출되는데, 이때 open 프로퍼티는 하위 클래스에 구현되어 있다는 가정이 있고, 상위 클래스의 생성자나 초기화 블록에서 하위클래스의 open 프로퍼티를 접근하면 아직 초기화 되지 않은 프로퍼티에 접근하게 되기                         
+                             
