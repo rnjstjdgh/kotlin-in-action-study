@@ -471,3 +471,7 @@ class Client(val name: String, val postalCode: Int)
 
 # 코틀린 참고자료
 * https://www.youtube.com/watch?v=RBQOlv0aRl4
+
+# 코틀린 팁
+* ![image](https://user-images.githubusercontent.com/41561652/206827664-848ebafc-ec0f-45ff-bad9-086061a5be88.png)
+
