@@ -479,3 +479,5 @@ class Client(val name: String, val postalCode: Int)
                              
 * 코틀린 클로저
   * https://codechacha.com/ko/kotlin-closures/#%ED%81%B4%EB%A1%9C%EC%A0%80closure%EC%9D%98-%EC%9D%98%EB%AF%B8
+  * 람다가 실행되는 시점의 변수를 모두 포획하여 가지고있는 데이터 구조를 클로저라고 함
+  * (자바에서는 일반 변수를 한번만 초기화 하면 람다에 사용가능하지만, 2번이상 초기환 한 경우 사용 불가함)
