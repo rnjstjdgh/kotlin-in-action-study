@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="kotlin-in-action" />
+        <module name="kotlin-in-action-study" />
       </profile>
     </annotationProcessing>
   </component>

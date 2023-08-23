@@ -1,4 +1,4 @@
-package kotlin_code.corutine
+package kotlin_code.corutine.새차원6
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
